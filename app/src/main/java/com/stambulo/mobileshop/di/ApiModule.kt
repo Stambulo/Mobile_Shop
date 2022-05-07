@@ -1,19 +1,16 @@
 package com.stambulo.mobileshop.di
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.stambulo.mobileshop.data.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -30,16 +27,10 @@ class ApiModule {
     fun api(@Named("baseUrl") baseUrl: String): ApiService =
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson()))
+            .addConverterFactory(JacksonConverterFactory.create())
             .client(creteOkHttpClient(MainInterceptor()))
             .build()
             .create(ApiService::class.java)
-
-    @Singleton
-    @Provides
-    fun gson(): Gson = GsonBuilder()
-        .excludeFieldsWithoutExposeAnnotation()
-        .create()
 
     private fun creteOkHttpClient(interceptor: Interceptor): OkHttpClient {
         val httpClient = OkHttpClient.Builder()

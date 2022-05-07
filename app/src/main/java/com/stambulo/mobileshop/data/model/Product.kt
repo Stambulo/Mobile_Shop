@@ -1,17 +1,17 @@
 package com.stambulo.mobileshop.data.model
 
-import com.google.gson.annotations.Expose
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
 
 data class Product(
-    @Expose val productCategory: ProductCategory,
-    @Expose val name: String,
-    @Expose val details: String,
-    @Expose val size: String,
-    @Expose val colour: String,
-    @Expose val price: BigDecimal,
-    @Expose val id: Int,
-    @Expose val main_image: String,
-    @Expose val images: List<String>,
-    @Expose val reviews: List<Reviews>
+    @JsonProperty("productCategory") val productCategory: ProductCategory?,
+    @JsonProperty("name") val name: String?,
+    @JsonProperty("details") val details: String?,
+    @JsonProperty("size") val size: String?,
+    @JsonProperty("colour") val colour: String?,
+    @JsonProperty("price") val price: BigDecimal?,
+    @JsonProperty("id") val id: Int?,
+    @JsonProperty("main_image") val main_image: String?,
+    @JsonProperty("reviewsimages") val images: List<String>?,
+    @JsonProperty("") val reviews: List<Reviews>?
 )

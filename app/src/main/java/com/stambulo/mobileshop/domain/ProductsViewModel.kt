@@ -1,6 +1,5 @@
 package com.stambulo.mobileshop.domain
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stambulo.mobileshop.data.api.RepositoryImpl

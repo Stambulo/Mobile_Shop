@@ -1,9 +1,9 @@
 package com.stambulo.mobileshop.data.model
 
-import com.google.gson.annotations.Expose
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class ProductCategory(
-    @Expose val name: String,
-    @Expose val icon: String,
-    @Expose val id: Int
+    @JsonProperty("name") val name: String?,
+    @JsonProperty("icon") val icon: String?,
+    @JsonProperty("id") val id: Int?
 )

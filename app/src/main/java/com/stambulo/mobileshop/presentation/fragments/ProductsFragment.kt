@@ -50,7 +50,7 @@ class ProductsFragment: Fragment() {
             viewModel.state.collect {
                 when (it){
                     is ProductState.Idle -> {Log.i(">>>", "Idle")}
-                    is ProductState.Error -> {Log.i(">>>", "Error")}
+                    is ProductState.Error -> {Log.i(">>>", "Error - ${it.error.toString()}")}
                     is ProductState.Loading -> {}
                     is ProductState.Success -> {Log.i(">>>", "Success - ${it.success.body()?.results?.toString()}")}
                 }

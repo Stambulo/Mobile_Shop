@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
 
 data class Product(
-    @JsonProperty("productCategory") val productCategory: ProductCategory?,
+    @JsonProperty("category") val category: ProductCategory?,
     @JsonProperty("name") val name: String?,
     @JsonProperty("details") val details: String?,
     @JsonProperty("size") val size: String?,
@@ -12,6 +12,10 @@ data class Product(
     @JsonProperty("price") val price: BigDecimal?,
     @JsonProperty("id") val id: Int?,
     @JsonProperty("main_image") val main_image: String?,
-    @JsonProperty("reviewsimages") val images: List<String>?,
-    @JsonProperty("") val reviews: List<Reviews>?
+    @JsonProperty("images") var images: List<Image>,
+    @JsonProperty("reviews") val reviews: List<Reviews>?
+)
+
+data class Image(
+    @JsonProperty("image") val image: String?
 )

@@ -4,11 +4,45 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_add_to_cart_button.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_back_arrow.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_buy_now_button.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_cart_empty.xml" value="0.301" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_empty_heart.xml" value="0.301" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_favorites.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_filled_heart.xml" value="0.301" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_filters.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_information_text.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3225" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_logo.xml" value="0.22" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_mycart_button.xml" value="0.1435" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_pagination.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_shopping_cart.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_small_logo.xml" value="0.2105" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_user.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_view_mode.xml" value="0.301" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/main_header_selector.xml" value="0.301" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/activity_splash.xml" value="0.3625" />
-        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_products.xml" value="0.3625" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/app_bar_products.xml" value="0.26875" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/filter.xml" value="0.26875" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/footer_end_of_list.xml" value="0.25" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/footer_loading_next_page.xml" value="0.26875" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_details.xml" value="0.33" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_favorites.xml" value="0.26875" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_products.xml" value="0.25" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_splash.xml" value="0.3625" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/item_product.xml" value="0.3625" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/item_products.xml" value="0.22" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/product_list_footer.xml" value="0.159375" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/product_list_footer_refresh.xml" value="0.3625" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/toolbar_details.xml" value="0.26875" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/toolbar_favorites.xml" value="0.2677083333333333" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/toolbar_products.xml" value="0.3625" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/toolbar_sort_by.xml" value="0.2677083333333333" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/toolbar_view_mode.xml" value="0.26875" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/view_mode_products.xml" value="0.26875" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/menu/product_menu.xml" value="0.26875" />
       </map>
     </option>
   </component>

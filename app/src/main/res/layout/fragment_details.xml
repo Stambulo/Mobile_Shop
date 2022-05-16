@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_details"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/constraint_layout">
+
+            <ImageView
+                android:id="@+id/detailed_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/product_image"
+                android:padding="24dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/detailed_image" />
+
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:ellipsize="none"
+                android:fontFamily="@font/open_sans_extra_bold"
+                android:gravity="center"
+                android:maxHeight="50dp"
+                android:maxLines="2"
+                android:paddingTop="24dp"
+                android:scrollHorizontally="false"
+                android:text="@string/Product_name_placeholder"
+                android:textColor="@color/product_name"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="@id/divider_top" />
+
+            <TextView
+                android:id="@+id/product_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:gravity="center"
+                android:maxHeight="150dp"
+                android:paddingVertical="8dp"
+                android:text="@string/product_description"
+                android:textColor="@color/product_description"
+                app:layout_constraintStart_toStartOf="@id/product_name"
+                app:layout_constraintTop_toBottomOf="@id/product_name" />
+
+            <LinearLayout
+                android:id="@+id/price_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="24dp"
+                app:layout_constraintTop_toBottomOf="@id/product_description">
+
+                <TextView
+                    android:id="@+id/price_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_semi_bold"
+                    android:text="@string/price_placeholder"
+                    android:textColor="@color/first_price"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@id/product_name"
+                    app:layout_constraintTop_toBottomOf="@id/product_description" />
+
+                <TextView
+                    android:id="@+id/price_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_semi_bold"
+                    android:paddingHorizontal="24dp"
+                    android:text="@string/price_placeholder"
+                    android:textColor="@color/second_price"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toEndOf="@id/price_first"
+                    app:layout_constraintTop_toBottomOf="@id/product_description" />
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/price_layout" />
+
+            <ImageView
+                android:id="@+id/info_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/info_text"
+                android:padding="24dp"
+                android:src="@drawable/ic_information_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_bottom" />
+
+            <TextView
+                android:id="@+id/details_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="@string/details_mock_text"
+                app:layout_constraintTop_toBottomOf="@id/info_label"
+                tools:layout_editor_absoluteX="31dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/details_tv">
+
+                <ImageView
+                    android:src="@drawable/ic_add_to_cart_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/add_to_cart" />
+
+                <ImageView
+                    android:src="@drawable/ic_buy_now_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/buy_now_button" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

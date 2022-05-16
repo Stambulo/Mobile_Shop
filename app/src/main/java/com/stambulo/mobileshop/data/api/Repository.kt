@@ -5,6 +5,7 @@ import com.stambulo.mobileshop.data.model.Product
 import retrofit2.Response
 
 interface Repository {
-    suspend fun getProduct(id: Int): Response<Product>
+    suspend fun getProducts(id: Int): Response<Product>
     suspend fun getProducts(): Response<MobileShopData>
+    suspend fun getProductsPage(page: Int, page_size: Int): Response<MobileShopData>
 }

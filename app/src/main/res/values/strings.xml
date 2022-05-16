@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Mobile Shop</string>
+    <string name="logo">Logo</string>
+    <string name="user">User</string>
+    <string name="favorites">Favorites</string>
+    <string name="product_image">Product Image</string>
+    <string name="Product_name_placeholder">Apple iPhone X</string>
+    <string name="product_description">Product description</string>
+    <string name="price_placeholder">$ 980,-</string>
+    <string name="item_in_favorite">Item In Favorite</string>
+    <string name="item_not_in_favorites">Item not in Favorites</string>
+    <string name="shopping_cart">Shopping cart</string>
+    <string name="refresh">Refresh</string>
+    <string name="connect_internet_please">Connect Internet Please !</string>
+    <string name="end_of_list">End Of List !</string>
+    <string name="pagination">Pagination</string>
+    <string name="back_arrow">Back Arrow</string>
+    <string name="myCart_button">MyCart button</string>
+    <string name="info_text">Info Text</string>
+    <string name="details_mock_text">Lorem Ipsum is simply dummy text of the printing and
+        typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since
+        the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+        specimen book. It has survived not only five centuries, but also the leap into electronic
+        typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
+        release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+        publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="add_to_cart">Add to Cart Button</string>
+    <string name="buy_now_button">Buy now button</string>
+    <string name="my_cart">My Cart</string>
+    <string name="my_cart_fab">My Cart fab</string>
 </resources>

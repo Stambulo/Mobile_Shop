@@ -8,4 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="base">#182867</color>
+    <color name="product_name">#07195C</color>
+    <color name="product_description">#424A56</color>
+    <color name="first_price">#035A97</color>
+    <color name="second_price">#9CB1BC</color>
+    <color name="gradient_second_color">#F8F8F8</color>
+    <color name="fab_button_color">#7740A2</color>
 </resources>

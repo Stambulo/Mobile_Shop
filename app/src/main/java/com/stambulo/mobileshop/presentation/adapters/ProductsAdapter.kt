@@ -17,6 +17,7 @@ class ProductsAdapter(
 
     private var data: MutableList<Results> = mutableListOf()
     private lateinit var binding: ItemProductsBinding
+    private var indicesInDb: List<Int> = listOf()
 
     override fun getCount(): Int {
         return data.size
@@ -34,7 +35,16 @@ class ProductsAdapter(
     override fun getView(position: Int, itemView: View?, parent: ViewGroup): View {
         binding = ItemProductsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         binding.apply {
-            root.setOnClickListener { onListItemClickListener.onItemClick(data[position].id) }
+            if (indicesInDb.contains(data[position].id)){
+                inFavoriteIcon.visibility = View.VISIBLE
+            }
+            root.setOnClickListener {
+                onListItemClickListener.onItemClick(data[position].id) }
+            notInFavoriteIcon.setOnClickListener {
+                onListItemClickListener.onAddToFavoritesClick(data[position], position, itemView, parent) }
+            inFavoriteIcon.setOnClickListener {
+                onListItemClickListener.onRemoveFromFavoritesClick(data[position].id, position, itemView, parent)
+            }
             productName.text = data[position].name
             productDescription.text = data[position].details
             priceFirst.text = "$ " + data[position].price.toString()
@@ -44,10 +54,20 @@ class ProductsAdapter(
         return binding.root
     }
 
-    fun updateData(results: List<Results>) {
+    fun updateList(results: List<Results>, indices: List<Int>) {
+        indicesInDb = indices
         data.clear()
         data.addAll(results)
     }
+
+    fun updateItemView(indices: List<Int>, position: Int, itemView: View?, parent: ViewGroup) {
+        indicesInDb = indices
+        getView(position, itemView, parent)
+    }
 }
 
-interface OnListItemClickListener{ fun onItemClick(productId: Int)}
+interface OnListItemClickListener{
+    fun onItemClick(productId: Int)
+    fun onAddToFavoritesClick(product: Results, position: Int, itemView: View?, parent: ViewGroup)
+    fun onRemoveFromFavoritesClick(id: Int, position: Int, itemView: View?, parent: ViewGroup)
+}

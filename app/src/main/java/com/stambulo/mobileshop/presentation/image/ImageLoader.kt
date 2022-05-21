@@ -2,6 +2,7 @@ package com.stambulo.mobileshop.presentation.image
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class ImageLoader: IImageLoader<ImageView> {
 
@@ -9,6 +10,7 @@ class ImageLoader: IImageLoader<ImageView> {
         Glide.with(container.context)
             .asBitmap()
             .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(container)
     }
 }

@@ -102,7 +102,7 @@
         android:id="@+id/in_favorite_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_filled_heart"
+        android:src="@drawable/ic_red_filled_heart_icon"
         android:scaleType="matrix"
         android:layout_margin="12dp"
         android:visibility="gone"

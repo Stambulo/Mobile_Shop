@@ -10,6 +10,7 @@
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_cart_empty.xml" value="0.301" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_empty_heart.xml" value="0.301" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_favorites.xml" value="0.3225" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_favorites_header.xml" value="0.3505" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_filled_heart.xml" value="0.301" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_filters.xml" value="0.3225" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/drawable/ic_information_text.xml" value="0.3225" />
@@ -29,8 +30,8 @@
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/footer_end_of_list.xml" value="0.25" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/footer_loading_next_page.xml" value="0.26875" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_details.xml" value="0.33" />
-        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_favorites.xml" value="0.26875" />
-        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_products.xml" value="0.25" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_favorites.xml" value="0.1" />
+        <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_products.xml" value="0.2" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/fragment_splash.xml" value="0.3625" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/item_product.xml" value="0.3625" />
         <entry key="..\:/dev/android/MyProjects/MobileShop/app/src/main/res/layout/item_products.xml" value="0.22" />

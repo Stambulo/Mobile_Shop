@@ -37,6 +37,12 @@ android {
 }
 
 dependencies {
+    // Room
+    implementation "androidx.room:room-runtime:2.4.2"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation "androidx.room:room-ktx:2.4.2"
+    kapt "androidx.room:room-compiler:2.4.2"
+
     // Lifecycle
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'

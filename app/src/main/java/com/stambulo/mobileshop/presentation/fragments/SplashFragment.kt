@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.stambulo.mobileshop.R
 import com.stambulo.mobileshop.databinding.FragmentSplashBinding
-import com.stambulo.mobileshop.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

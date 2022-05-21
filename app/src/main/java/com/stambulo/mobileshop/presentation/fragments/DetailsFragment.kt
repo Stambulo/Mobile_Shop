@@ -45,12 +45,17 @@ class DetailsFragment : Fragment() {
         productId = arguments?.getInt("productId")!!
         observeViewModel()
         viewModel.getProductById(productId)
+        setupOnClickListener()
+    }
+
+    private fun setupOnClickListener(){
         binding.toolbar.backArrow.setOnClickListener {
             Navigation.findNavController(requireActivity(), R.id.nav_host)
                 .navigate(R.id.action_details_to_products)
         }
         binding.toolbar.favorites.setOnClickListener {
-
+            Navigation.findNavController(requireActivity(), R.id.nav_host)
+                .navigate(R.id.action_details_to_favorites)
         }
     }
 

@@ -5,8 +5,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +41,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     private var visibleLastIndex = 0
     private var visibleItemCount = 0
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
-        ProductsAdapter(imageLoader, onListItemClickListener)
+        ProductsAdapter(imageLoader, adapterClickListener)
     }
 
     @SuppressLint("InflateParams")
@@ -64,15 +62,81 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
         binding.refreshButton.setOnClickListener { sendIntentToViewModel() }
         sendIntentToViewModel()
         observeViewModel()
+        setupOnClickListener()
     }
+
+    private fun setupOnClickListener() {
+        binding.toolbar.favorites.setOnClickListener {
+            Navigation.findNavController(requireActivity(), R.id.nav_host)
+                .navigate(R.id.action_products_to_favorites)
+        }
+    }
+
+    private val adapterClickListener: OnListItemClickListener =
+        object : OnListItemClickListener {
+            /**
+             *    Click on Item -> Go to details fragment
+             */
+            override fun onItemClick(productId: Int) {
+                val bundle = Bundle()
+                bundle.putInt("productId", productId)
+                Navigation.findNavController(requireActivity(), R.id.nav_host)
+                    .navigate(R.id.action_products_to_details, bundle)
+            }
+
+            /**
+             *   Click on empty heart -> add product to favorites
+             */
+            override fun onAddToFavoritesClick(
+                product: Results,
+                position: Int,
+                itemView: View?,
+                parent: ViewGroup
+            ) {
+                lifecycleScope.launch {
+                    viewModel.intent.send(
+                        ProductsIntent.InsertProductIntoDb(
+                            product,
+                            position,
+                            itemView,
+                            parent)
+                    )
+                }
+            }
+            /**
+             *   Click on filled heart -> remove product from favorites
+             */
+            override fun onRemoveFromFavoritesClick(
+                id: Int,
+                position: Int,
+                itemView: View?,
+                parent: ViewGroup
+            ) {
+                lifecycleScope.launch{
+                    viewModel.intent.send(
+                        ProductsIntent.RemoveFromFavorites(
+                            id,
+                            position,
+                            itemView,
+                            parent)
+                    )
+                }
+            }
+        }
 
     private fun sendIntentToViewModel() {
         lifecycleScope.launch {
-            if (!isOnline(requireContext())) {             // Internet not connected -> Warning
+            /**
+             *    Internet not connected -> Warning message
+             */
+            if (!isOnline(requireContext())) {
                 binding.refreshButton.visibility = View.VISIBLE
                 binding.tvConnect.visibility = View.VISIBLE
 
-            } else {                                       // Internet connected -> send Intent
+            } else {
+                /**
+                 *   Internet connected -> send Intent to ViewModel
+                 */
                 viewModel.intent.send(ProductsIntent.FetchProducts)
                 binding.refreshButton.visibility = View.GONE
                 binding.tvConnect.visibility = View.GONE
@@ -82,48 +146,54 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
 
     private fun observeViewModel() {
         lifecycleScope.launch {
-            viewModel.state.collect {
+            viewModel.productState.collect {
                 when (it) {
                     is ProductState.Idle -> {}
-                    is ProductState.Loading -> {binding.mainProgress.visibility = View.VISIBLE}
-                    is ProductState.Success -> { renderSuccess(it.success, it.endOfList) }
+                    is ProductState.Loading -> {
+                        binding.mainProgress.visibility = View.VISIBLE
+                    }
+                    is ProductState.UpdateIndices -> {
+                        updateItemView(it.indices, it.position, it.itemView, it.parent)
+                    }
+                    is ProductState.Success -> {
+                        renderSuccess(it.success, it.endOfList, it.indices)
+                    }
                     is ProductState.Error -> {
-                        Toast.makeText(requireContext(), "Error - ${it.error}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "Error - ${it.error}", Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
             }
         }
     }
 
-    private fun renderSuccess(success: List<Results>?, endOfList: Boolean) {
+    private fun updateItemView(
+        indices: List<Int>,
+        position: Int,
+        itemView: View?,
+        parent: ViewGroup
+    ) {
+        adapter.updateItemView(indices, position, itemView, parent)
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun renderSuccess(success: List<Results>?, endOfList: Boolean, indices: List<Int>) {
         binding.mainProgress.visibility = View.GONE
         binding.listView.removeFooterView(loadingFooter)
         if (success != null) {
-            binding.listView.addFooterView(loadingFooter)
-            adapter.updateData(success)
-            adapter.notifyDataSetChanged()
             binding.listView.visibility = View.VISIBLE
-            if (endOfList){
+            binding.listView.addFooterView(loadingFooter)
+            adapter.updateList(success, indices)
+            adapter.notifyDataSetChanged()
+            if (endOfList) {
                 binding.listView.removeFooterView(loadingFooter)
             }
         }
     }
 
-    private val onListItemClickListener: OnListItemClickListener =
-        object: OnListItemClickListener {
-            override fun onItemClick(productId: Int) {
-                val bundle = Bundle()
-                bundle.putInt("productId", productId)
-                Navigation.findNavController(requireActivity(), R.id.nav_host)
-                    .navigate(R.id.action_products_to_details, bundle)
-            }
-        }
-
     override fun onScroll(
-        view: AbsListView?,
-        firstVisible: Int,
-        visibleItemCount: Int,
-        totalItemCount: Int) {
+        view: AbsListView?, firstVisible: Int, visibleItemCount: Int, totalItemCount: Int
+    ) {
         this.visibleItemCount = visibleItemCount
         visibleLastIndex = firstVisible + visibleItemCount - 1
     }

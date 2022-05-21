@@ -10,7 +10,7 @@ sealed class ProductState{
     object Loading: ProductState()
     data class Error(val error: String): ProductState()
 
-    data class UpdateIndices(
+    data class UpdateItemView(
         val indices: List<Int>,
         val position: Int,
         val itemView: View?,

@@ -24,7 +24,7 @@ class ProductsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var listOfProducts: MutableList<Results> = mutableListOf()
-    private var pager = Pager(23, 0, 1, 3, 10)     // Start pager
+    private var pager = Pager(23, 0, 1, 3, 10)  // Start position
     val intent = Channel<ProductsIntent>(Channel.UNLIMITED)
     private val _productState = MutableStateFlow<ProductState>(ProductState.Idle)
     val productState: StateFlow<ProductState> get() = _productState
@@ -37,15 +37,9 @@ class ProductsViewModel @Inject constructor(
                 when (it) {
                     is ProductsIntent.FetchProducts -> getNextProductPage()
                     is ProductsIntent.InsertProductIntoDb -> insertProductIntoDb(
-                        it.product,
-                        it.position,
-                        it.itemView,
-                        it.parent)
-                    is ProductsIntent.RemoveFromFavorites -> removeIdFromDB(
-                        it.id,
-                        it.position,
-                        it.itemView,
-                        it.parent
+                        it.product, it.position, it.itemView, it.parent)
+                    is ProductsIntent.RemoveFromFavorites -> removeProductFromDB(
+                        it.id, it.position, it.itemView, it.parent
                     )
                 }
             }
@@ -54,8 +48,8 @@ class ProductsViewModel @Inject constructor(
 
     private fun getNextProductPage() {
         viewModelScope.launch {
-            if (pager.nextPage <= pager.pages) {        // Not the end of list -> Load next page
-                _productState.value = ProductState.Loading           // LOADING
+            if (pager.nextPage <= pager.pages) {        // If not the end of list -> Load next page
+                _productState.value = ProductState.Loading           // LOADING STATE
                 try {
                     val result = repository.getProductsPage(pager.nextPage, pager.per_page)
                     val products = result.body()?.results
@@ -73,11 +67,11 @@ class ProductsViewModel @Inject constructor(
                     if (pager.nextPage > pager.pages) {              // End of list -> hide footer
                         endOfList = true
                     }
-                    _productState.value = ProductState.Success(      //  SUCCESS
+                    _productState.value = ProductState.Success(      //  SUCCESS STATE
                         listOfProducts,
                         endOfList,
-                        readDbIndices())
-                } catch (e: Exception) {                             // ERROR
+                        readAllIdFromDb())
+                } catch (e: Exception) {                             // ERROR STATE
                     _productState.value = e.localizedMessage?.let { ProductState.Error(it) }!!
                 }
             }
@@ -92,12 +86,12 @@ class ProductsViewModel @Inject constructor(
     ){
         viewModelScope.launch {
             dbRepository.insertData(resultToRoomConverter(product))
-            _productState.value = ProductState.UpdateIndices(
-                readDbIndices(), position, itemView, parent)
+            _productState.value = ProductState.UpdateItemView(
+                readAllIdFromDb(), position, itemView, parent)
         }
     }
 
-    private fun removeIdFromDB(
+    private fun removeProductFromDB(
         id: Int,
         position: Int,
         itemView: View?,
@@ -105,12 +99,12 @@ class ProductsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             dbRepository.deleteById(id)
-            _productState.value = ProductState.UpdateIndices(
-                readDbIndices(), position, itemView, parent)
+            _productState.value = ProductState.UpdateItemView(
+                readAllIdFromDb(), position, itemView, parent)
         }
     }
 
-    private suspend fun readDbIndices(): List<Int>{
+    private suspend fun readAllIdFromDb(): List<Int>{
         return dbRepository.getIdFromDb()
     }
 }

@@ -35,7 +35,6 @@ class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepos
 
     private fun deleteItem(id: Int) {
         viewModelScope.launch {
-//            dbRepository.deleteAll()
             dbRepository.deleteById(id)
             selectItems()
         }
@@ -43,7 +42,6 @@ class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepos
 
     private fun selectItems(){
         viewModelScope.launch {
-//            dbRepository.deleteAll()
             _state.value = FavoritesState.Success(dbRepository.getDataFromDB())
         }
     }

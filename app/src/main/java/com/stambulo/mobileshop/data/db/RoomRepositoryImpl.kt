@@ -16,10 +16,6 @@ class RoomRepositoryImpl @Inject constructor(private val db: RoomDatabase) {
         db.dao.insertProduct(data)
     }
 
-    suspend fun deleteAll(){
-        db.dao.deleteAll()
-    }
-
     suspend fun deleteById(id: Int) {
         db.dao.deleteById(id)
     }

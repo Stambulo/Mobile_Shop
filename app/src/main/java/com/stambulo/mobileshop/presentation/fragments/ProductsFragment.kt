@@ -152,7 +152,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
                     is ProductState.Loading -> {
                         binding.mainProgress.visibility = View.VISIBLE
                     }
-                    is ProductState.UpdateIndices -> {
+                    is ProductState.UpdateItemView -> {
                         updateItemView(it.indices, it.position, it.itemView, it.parent)
                     }
                     is ProductState.Success -> {
@@ -167,7 +167,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
         }
     }
 
-    private fun updateItemView(
+    private fun updateItemView(         /**     Show and Hide hearts    */
         indices: List<Int>,
         position: Int,
         itemView: View?,

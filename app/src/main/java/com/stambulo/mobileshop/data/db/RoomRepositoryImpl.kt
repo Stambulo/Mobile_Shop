@@ -8,8 +8,12 @@ class RoomRepositoryImpl @Inject constructor(private val db: RoomDatabase) {
         return db.dao.getAllProducts()
     }
 
-    suspend fun getIdFromDb(): List<Int>{
-        return db.dao.getIdFromDb()
+    suspend fun getProductById(id: Int): EntityRoomProduct{
+        return db.dao.getProductById(id)
+    }
+
+    suspend fun getIdListFromDb(): List<Int>{
+        return db.dao.getIdListFromDb()
     }
 
     suspend fun insertData(data: EntityRoomProduct){

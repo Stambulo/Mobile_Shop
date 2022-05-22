@@ -12,7 +12,10 @@ abstract class RoomDao {
     abstract suspend fun getAllProducts(): List<EntityRoomProduct>
 
     @Query("SELECT id FROM products")
-    abstract suspend fun getIdFromDb(): List<Int>
+    abstract suspend fun getIdListFromDb(): List<Int>
+
+    @Query("SELECT * FROM products WHERE id = :productId")
+    abstract suspend fun getProductById(productId: Int): EntityRoomProduct
 
     @Query("DELETE FROM products")
     abstract suspend fun deleteAll()

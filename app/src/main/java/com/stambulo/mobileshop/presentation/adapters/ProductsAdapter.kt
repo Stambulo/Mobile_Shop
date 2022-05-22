@@ -60,6 +60,9 @@ class ProductsAdapter(
         data.addAll(results)
     }
 
+    /********************************************************/
+    /**                  Show and hide hearts               */
+    /********************************************************/
     fun updateItemView(indices: List<Int>, position: Int, itemView: View?, parent: ViewGroup) {
         indicesInDb = indices
         getView(position, itemView, parent)

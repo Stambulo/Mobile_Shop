@@ -12,7 +12,7 @@ data class Results (
     @JsonProperty("colour") val colour: String,
     @JsonProperty("price") val price: BigDecimal,
     @JsonProperty("main_image") val main_image: String,
-    @JsonProperty("category") val category: ProductCategory?
+    @JsonProperty("category") val category: ProductCategory
 )
 
 fun resultToRoomConverter(results: Results): EntityRoomProduct{
@@ -21,6 +21,7 @@ fun resultToRoomConverter(results: Results): EntityRoomProduct{
         results.name,
         results.details,
         results.price,
-        results.main_image
+        results.main_image,
+        results.category.name
     )
 }

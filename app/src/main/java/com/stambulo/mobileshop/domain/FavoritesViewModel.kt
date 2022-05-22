@@ -1,5 +1,6 @@
 package com.stambulo.mobileshop.domain
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stambulo.mobileshop.data.db.RoomRepositoryImpl
@@ -22,17 +23,25 @@ class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepos
 
     init { handleIntent() }
 
+    /********************************************************/
+    /**                 Intent Handler                      */
+    /********************************************************/
     private fun handleIntent() {
         viewModelScope.launch {
             intent.consumeAsFlow().collect {
                 when (it) {
                     is FavoritesIntent.SelectItems -> selectItems()
                     is FavoritesIntent.DeleteItems -> deleteItem(it.id)
+                    is FavoritesIntent.BackNavigation -> backNavigation()
+                    is FavoritesIntent.ToDetailsNavigation -> toDetailsNavigation(it.bundle)
                 }
             }
         }
     }
 
+    /********************************************************/
+    /**                  Database cases                     */
+    /********************************************************/
     private fun deleteItem(id: Int) {
         viewModelScope.launch {
             dbRepository.deleteById(id)
@@ -44,5 +53,17 @@ class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepos
         viewModelScope.launch {
             _state.value = FavoritesState.Success(dbRepository.getDataFromDB())
         }
+    }
+
+    /********************************************************/
+    /**                 Navigation cases                    */
+    /********************************************************/
+    private fun backNavigation() {
+        _state.value = FavoritesState.BackNavigation
+    }
+
+    private fun toDetailsNavigation(bundle: Bundle) {
+        bundle.putString("source", "DATABASE")
+        _state.value = FavoritesState.ToDetailsNavigation(bundle)
     }
 }

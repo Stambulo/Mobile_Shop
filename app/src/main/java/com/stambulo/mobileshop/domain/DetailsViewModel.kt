@@ -78,7 +78,7 @@ class DetailsViewModel @Inject constructor(
     }
 
     /********************************************************/
-    /**                 Get Data Cases                      */
+    /**                 Navigation Cases                    */
     /********************************************************/
     private fun backNavigation() {
         when (source){

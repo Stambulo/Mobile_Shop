@@ -10,10 +10,10 @@ sealed class ProductState{
     object Idle: ProductState()
     object Loading: ProductState()
     object LostConnection : ProductState()
-    object RestoreConnection : ProductState()
     object NavigateToFavorites : ProductState()
     data class Error(val error: String): ProductState()
     data class NavigateToDetails(val bundle: Bundle) : ProductState()
+    data class RestoreConnection(val lastPage: Boolean) : ProductState()
 
     data class UpdateItemView(
         val indices: List<Int>,

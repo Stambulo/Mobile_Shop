@@ -35,7 +35,7 @@ class FavoritesAdapter(
             root.setOnClickListener { onClickListener.onItemClick(data[position].id) }
             inFavoriteIcon.setOnClickListener { onClickListener.onHeartClick(data[position].id) }
             productName.text = data[position].name
-            productDescription.text = data[position].description
+            productDescription.text = data[position].details
             priceFirst.text = "$ " + data[position].price.toString()
             priceSecond.text = "$ " + data[position].price.toString()
             notInFavoriteIcon.visibility = View.GONE

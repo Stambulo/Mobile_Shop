@@ -24,9 +24,10 @@ class ProductsViewModel @Inject constructor(
     private val dbRepository: RoomRepositoryImpl
 ) : ViewModel() {
 
+    var lastPage = false
     private var isConnected = true
     private var listOfProducts: MutableList<Results> = mutableListOf()
-    private var pager = Pager(23, 0, 1, 3, 10)  // Start position
+    private var pager = Pager(0, 0, 0, 0)
     val intent = Channel<ProductsIntent>(Channel.UNLIMITED)
     private val _productState = MutableStateFlow<ProductState>(ProductState.Idle)
     val productState: StateFlow<ProductState> get() = _productState
@@ -45,13 +46,11 @@ class ProductsViewModel @Inject constructor(
                     is ProductsIntent.ConnectionChanged -> onChangeConnection(it.isOnline)
                     is ProductsIntent.GoToDetails -> navigateToDetails(it.bundle)
                     is ProductsIntent.GoToFavorites -> navigateToFavorites()
-                    is ProductsIntent.FetchProducts -> getNextProductPage()
+                    is ProductsIntent.FetchProducts -> loader()
                     is ProductsIntent.InsertProductIntoDb -> insertProductIntoDb(
-                        it.product, it.position, it.itemView, it.parent
-                    )
+                        it.product, it.position, it.itemView, it.parent)
                     is ProductsIntent.RemoveFromDB -> removeProductFromDB(
-                        it.id, it.position, it.itemView, it.parent
-                    )
+                        it.id, it.position, it.itemView, it.parent)
                 }
             }
         }
@@ -60,37 +59,41 @@ class ProductsViewModel @Inject constructor(
     /********************************************************/
     /**                 Next Page Loader                    */
     /********************************************************/
-    private fun getNextProductPage() {
-        if (isConnected) {
-            viewModelScope.launch {
-                if (pager.nextPage <= pager.pages) {     // If not the end of list -> Load next page
-                    _productState.value = ProductState.Loading           // LOADING STATE
-                    try {
-                        val result = repository.getProductsPage(pager.nextPage, pager.per_page)
-                        val products = result.body()?.results
-                        if (products != null) {
-                            for (i in products.listIterator()) {
-                                listOfProducts.add(i)
-                            }
-                        }
-                        pager.count = result.body()?.count!!
-                        pager.page = result.body()?.current_page!!
-                        pager.nextPage = result.body()?.current_page!! + 1
-                        pager.pages = result.body()?.total_pages!!
-                        pager.per_page = result.body()?.per_page!!
-                        var endOfList = false
-                        if (pager.nextPage > pager.pages) {            // End of list -> hide footer
-                            endOfList = true
-                        }
-                        _productState.value = ProductState.Success(      //  SUCCESS STATE
-                            listOfProducts,
-                            endOfList,
-                            readAllIdFromDb()
-                        )
-                    } catch (e: Exception) {                             // ERROR STATE
-                        _productState.value = e.localizedMessage?.let { ProductState.Error(it) }!!
+    private fun loader() {
+        if (!isConnected) return
+        if (pager.items == 0){                                      // First load -> Load first page
+            pager.page = 1
+            pager.per_page = 10
+            loadData(pager.page, pager.per_page,  lastPage)
+        }
+        if (pager.items > 0 && (pager.page + 1) <= pager.pages){
+            lastPage = (pager.page + 1) == pager.pages
+            loadData(pager.page + 1, pager.per_page, lastPage)
+        }
+    }
+
+    private fun loadData(page: Int, page_size: Int, endOfList: Boolean) {
+        _productState.value = ProductState.Loading               // LOADING STATE
+        viewModelScope.launch {
+            try {
+                val result = repository.getProductsPage(page, page_size)
+                val products = result.body()?.results
+                if (products != null) {
+                    for (i in products.listIterator()) {
+                        listOfProducts.add(i)
                     }
                 }
+                pager.items = result.body()?.count!!
+                pager.page = result.body()?.current_page!!
+                pager.pages = result.body()?.total_pages!!
+                pager.per_page = result.body()?.per_page!!
+                _productState.value = ProductState.Success(      //  SUCCESS STATE
+                    listOfProducts,
+                    endOfList,
+                    readAllIdFromDb()
+                )
+            } catch (e: Exception) {                             // ERROR STATE
+                _productState.value = e.localizedMessage?.let { ProductState.Error(it) }!!
             }
         }
     }
@@ -101,9 +104,11 @@ class ProductsViewModel @Inject constructor(
     private fun onChangeConnection(online: Boolean) {
         isConnected = online
         if (!online) {
+            isConnected = false
             _productState.value = ProductState.LostConnection
         } else {
-            _productState.value = ProductState.RestoreConnection
+            isConnected = true
+            _productState.value = ProductState.RestoreConnection(lastPage)
         }
     }
 
@@ -155,9 +160,8 @@ class ProductsViewModel @Inject constructor(
 
 /** Pager class */
 data class Pager(
-    var count: Int,
+    var items: Int,
     var page: Int,
-    var nextPage: Int,
     var pages: Int,
     var per_page: Int
 )

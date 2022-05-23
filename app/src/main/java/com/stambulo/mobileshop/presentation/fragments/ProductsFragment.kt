@@ -60,9 +60,9 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.refreshButton.setOnClickListener { setIntent() }
+        binding.refreshButton.setOnClickListener { fetchProducts() }
         isOnline()
-        setIntent()
+        fetchProducts()
         observeViewModel()
         favoritesClickListener()
     }
@@ -70,7 +70,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     /********************************************************/
     /**                       Intent                        */
     /********************************************************/
-    private fun setIntent() {
+    private fun fetchProducts() {
         lifecycleScope.launch {
             viewModel.intent.send(ProductsIntent.FetchProducts)
         }
@@ -84,22 +84,15 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
             viewModel.productState.collect {
                 when (it) {
                     is ProductState.Idle -> {}
-                    is ProductState.Loading -> {
-                        renderLoading()
-                    }
-                    is ProductState.UpdateItemView -> {
-                        renderUpdateItemView(it.indices, it.position, it.itemView, it.parent)
-                    }
-                    is ProductState.Success -> {
-                        renderSuccess(it.success, it.endOfList, it.indices)
-                    }
-                    is ProductState.Error -> {
-                        renderError(it.error)
-                    }
+                    is ProductState.Loading -> { renderLoading() }
+                    is ProductState.Error -> { renderError(it.error) }
                     is ProductState.LostConnection -> {renderLostConnection()}
-                    is ProductState.RestoreConnection -> {renderRestoreConnection()}
+                    is ProductState.RestoreConnection -> {renderRestoreConnection(it.lastPage)}
                     is ProductState.NavigateToDetails -> {goToDetailsScreen(it.bundle)}
                     is ProductState.NavigateToFavorites -> {goToFavoritesScreen()}
+                    is ProductState.Success -> { renderSuccess(it.success, it.endOfList, it.indices)}
+                    is ProductState.UpdateItemView -> {
+                        renderUpdateItemView(it.indices, it.position, it.itemView, it.parent) }
                 }
             }
         }
@@ -110,7 +103,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     /********************************************************/
     private fun renderSuccess(success: List<Results>?, endOfList: Boolean, indices: List<Int>) {
         binding.refreshButton.visibility = View.GONE
-        binding.tvConnect.visibility = View.GONE
+        binding.connectWarning.visibility = View.GONE
         binding.listView.alpha = 1F
         binding.mainProgress.visibility = View.GONE
         binding.listView.removeFooterView(loadingFooter)
@@ -133,20 +126,24 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
         Toast.makeText(requireContext(), "Error - $error", Toast.LENGTH_LONG).show()
     }
 
-    private fun renderRestoreConnection() {
+    private fun renderRestoreConnection(lastPage: Boolean) {
         /** Internet connected -> Hide Warning message */
+        binding.mainProgress.visibility = View.GONE
         binding.listView.visibility = View.VISIBLE
         binding.listView.alpha = 1F
+        if (!lastPage) {
+            binding.listView.addFooterView(loadingFooter)
+        }
         binding.refreshButton.visibility = View.GONE
-        binding.tvConnect.visibility = View.GONE
-        setIntent()
+        binding.connectWarning.visibility = View.GONE
     }
 
     private fun renderLostConnection() {
         /** Internet not connected -> Warning message */
         binding.listView.alpha = 0.3F
+        binding.listView.removeFooterView(loadingFooter)
         binding.refreshButton.visibility = View.VISIBLE
-        binding.tvConnect.visibility = View.VISIBLE
+        binding.connectWarning.visibility = View.VISIBLE
     }
 
     /**     Show and Hide hearts in main feed   */
@@ -230,7 +227,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
         val itemsLastIndex = adapter.count - 1
         val lastIndex = itemsLastIndex + 1
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
-            setIntent()
+            fetchProducts()
         }
     }
 
@@ -262,7 +259,8 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
         return false
     }
 
-    private var networkCallback: ConnectivityManager.NetworkCallback = object : ConnectivityManager.NetworkCallback() {
+    private var networkCallback: ConnectivityManager.NetworkCallback =
+        object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             // network available
             restoreConnection()

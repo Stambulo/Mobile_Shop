@@ -1,11 +1,13 @@
 package com.stambulo.mobileshop.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -102,11 +104,14 @@ class DetailsFragment : Fragment() {
     }
 
     private fun renderSuccessDb(product: EntityRoomProduct) {
+        product.image.let {
+            imageLoader.loadInto(it, binding.detailedImage)
+        }
         binding.apply {
             scrollView.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
             productName.text = product.name
-            productDescription.text = product.description
+            productDescription.text = product.category
             priceFirst.text = "$ " + product.price.toString()
             priceSecond.text = "$ " + product.price.toString()
             detailsTv.text = product.details
@@ -115,6 +120,24 @@ class DetailsFragment : Fragment() {
 
     private fun renderError(error: String) {
         Toast.makeText(requireContext(), "Error - $error", Toast.LENGTH_LONG).show()
+    }
+
+    /********************************************************/
+    /**                   BackPressed                       */
+    /********************************************************/
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true)
+        {
+            override fun handleOnBackPressed() {
+                Navigation.findNavController(requireActivity(), R.id.nav_host)
+                    .navigate(R.id.action_details_to_products)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
     }
 
     /********************************************************/

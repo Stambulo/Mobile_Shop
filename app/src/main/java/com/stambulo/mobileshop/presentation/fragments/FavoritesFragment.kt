@@ -1,10 +1,12 @@
 package com.stambulo.mobileshop.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -92,6 +94,21 @@ class FavoritesFragment : Fragment() {
     private fun toDetails(bundle: Bundle) {
         Navigation.findNavController(requireActivity(), R.id.nav_host)
             .navigate(R.id.action_favorites_to_details, bundle)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true)
+        {
+            override fun handleOnBackPressed() {
+                Navigation.findNavController(requireActivity(), R.id.nav_host)
+                    .navigate(R.id.action_favorites_to_products)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
     }
 
     /********************************************************/

@@ -60,11 +60,11 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.refreshButton.setOnClickListener { fetchProducts() }
         isOnline()
         fetchProducts()
         observeViewModel()
         favoritesClickListener()
+        setupButtonClickListener()
     }
 
     /********************************************************/
@@ -120,26 +120,30 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
 
     private fun renderLoading() {
         binding.mainProgress.visibility = View.VISIBLE
-    }
-
-    private fun renderError(error: String) {
-        Toast.makeText(requireContext(), "Error - $error", Toast.LENGTH_LONG).show()
-    }
-
-    private fun renderRestoreConnection(lastPage: Boolean) {
-        /** Internet connected -> Hide Warning message */
-        binding.mainProgress.visibility = View.GONE
-        binding.listView.visibility = View.VISIBLE
-        binding.listView.alpha = 1F
-        if (!lastPage) {
-            binding.listView.addFooterView(loadingFooter)
-        }
         binding.refreshButton.visibility = View.GONE
         binding.connectWarning.visibility = View.GONE
     }
 
+    private fun renderError(error: String) {
+        binding.listView.alpha = 0.3F
+        binding.listView.removeFooterView(loadingFooter)
+        Toast.makeText(requireContext(), "Error - $error", Toast.LENGTH_LONG).show()
+    }
+
+    /** Internet connected -> Hide Warning message */
+    private fun renderRestoreConnection(lastPage: Boolean) {
+        binding.mainProgress.visibility = View.GONE
+        binding.listView.visibility = View.VISIBLE
+        binding.listView.alpha = 1F
+        binding.refreshButton.visibility = View.GONE
+        binding.connectWarning.visibility = View.GONE
+        if (!lastPage) {
+            binding.listView.addFooterView(loadingFooter)
+        }
+    }
+
+    /** Internet not connected -> Show Warning message */
     private fun renderLostConnection() {
-        /** Internet not connected -> Warning message */
         binding.listView.alpha = 0.3F
         binding.listView.removeFooterView(loadingFooter)
         binding.refreshButton.visibility = View.VISIBLE
@@ -169,6 +173,10 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     /********************************************************/
     /**                  Click Listeners                    */
     /********************************************************/
+    private fun setupButtonClickListener() {
+        binding.refreshButton.setOnClickListener { fetchProducts() }
+    }
+
     private fun favoritesClickListener() {
         binding.toolbar.favorites.setOnClickListener {
             lifecycleScope.launch {
@@ -273,13 +281,14 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
 
     private fun restoreConnection(){
         lifecycleScope.launch {
-            viewModel.intent.send(ProductsIntent.ConnectionChanged(true))
+                viewModel.intent.send(ProductsIntent.ConnectionChanged(true))
         }
     }
 
     private fun lostConnection(){
         lifecycleScope.launch {
             viewModel.intent.send(ProductsIntent.ConnectionChanged(false))
+            binding.listView.removeFooterView(loadingFooter)
         }
     }
 }

@@ -60,7 +60,10 @@ class ProductsViewModel @Inject constructor(
     /**                 Next Page Loader                    */
     /********************************************************/
     private fun loader() {
-        if (!isConnected) return
+        if (!isConnected) {
+            _productState.value = ProductState.LostConnection
+            return
+        }
         if (pager.items == 0){                                      // First load -> Load first page
             pager.page = 1
             pager.per_page = 10
@@ -109,6 +112,9 @@ class ProductsViewModel @Inject constructor(
         } else {
             isConnected = true
             _productState.value = ProductState.RestoreConnection(lastPage)
+            if (pager.page == 0){
+                loader()
+            }
         }
     }
 

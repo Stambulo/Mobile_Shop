@@ -2,6 +2,7 @@ package com.stambulo.mobileshop.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.stambulo.mobileshop.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -12,5 +13,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+        installSplashScreen()
     }
 }

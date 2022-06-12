@@ -24,11 +24,14 @@ class SplashFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        Handler(Looper.getMainLooper()).postDelayed({
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.imageView.alpha = 0f
+        binding.imageView.animate().setDuration(1000).alpha(1f).withEndAction{
+            activity?.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             Navigation.findNavController(requireActivity(), R.id.nav_host)
                 .navigate(R.id.action_splash_to_products)
-        }, 2000)
+        }
     }
 }

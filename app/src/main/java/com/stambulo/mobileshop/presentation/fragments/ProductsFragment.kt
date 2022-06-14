@@ -82,17 +82,26 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     private fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.productState.collect {
-                when (it) {
-                    is ProductState.Idle -> {}
-                    is ProductState.Loading -> { renderLoading() }
-                    is ProductState.Error -> { renderError(it.error) }
-                    is ProductState.LostConnection -> {renderLostConnection()}
-                    is ProductState.RestoreConnection -> {renderRestoreConnection(it.lastPage)}
-                    is ProductState.NavigateToDetails -> {goToDetailsScreen(it.bundle)}
-                    is ProductState.NavigateToFavorites -> {goToFavoritesScreen()}
-                    is ProductState.Success -> { renderSuccess(it.success, it.endOfList, it.indices)}
-                    is ProductState.UpdateItemView -> {
-                        renderUpdateItemView(it.indices, it.position, it.itemView, it.parent) }
+                when (it.type) {
+                    ProductState.Type.IDLE -> {}
+                    ProductState.Type.LOADING -> { renderLoading() }
+
+                    ProductState.Type.Error -> { renderError(it.errorMessage) }
+                    ProductState.Type.LostConnection -> {renderLostConnection()}
+                    ProductState.Type.RestoreConnection -> {renderRestoreConnection(it.lastPage)}
+                    ProductState.Type.NavigateToDetails -> {goToDetailsScreen(it.bundle!!)}
+                    ProductState.Type.NavigateToFavorites -> {goToFavoritesScreen()}
+                    ProductState.Type.Success -> { renderSuccess(
+                        it.success?.success,
+                        it.success!!.endOfList,
+                        it.success.indices
+                    )}
+                    ProductState.Type.UpdateItemView -> { renderUpdateItemView(
+                            it.updateView!!.indices,
+                            it.updateView.position,
+                            it.updateView.itemView,
+                            it.updateView.parent
+                        )}
                 }
             }
         }

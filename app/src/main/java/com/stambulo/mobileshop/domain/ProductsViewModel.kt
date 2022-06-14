@@ -24,12 +24,12 @@ class ProductsViewModel @Inject constructor(
     private val dbRepository: RoomRepositoryImpl
 ) : ViewModel() {
 
-    var lastPage = false
+    private var lastPage = false
     private var isConnected = true
     private var listOfProducts: MutableList<Results> = mutableListOf()
     private var pager = Pager(0, 0, 0, 0)
     val intent = Channel<ProductsIntent>(Channel.UNLIMITED)
-    private val _productState = MutableStateFlow<ProductState>(ProductState.Idle)
+    private val _productState = MutableStateFlow(ProductState(ProductState.Type.IDLE))
     val productState: StateFlow<ProductState> get() = _productState
 
     init {
@@ -61,7 +61,7 @@ class ProductsViewModel @Inject constructor(
     /********************************************************/
     private fun loader() {
         if (!isConnected) {
-            _productState.value = ProductState.LostConnection
+            _productState.value = ProductState(ProductState.Type.LostConnection)
             return
         }
         if (pager.items == 0){                                      // First load -> Load first page
@@ -76,7 +76,7 @@ class ProductsViewModel @Inject constructor(
     }
 
     private fun loadData(page: Int, page_size: Int, endOfList: Boolean) {
-        _productState.value = ProductState.Loading               // LOADING STATE
+        _productState.value = ProductState(ProductState.Type.LOADING)          // LOADING STATE
         viewModelScope.launch {
             try {
                 val result = repository.getProductsPage(page, page_size)
@@ -90,13 +90,18 @@ class ProductsViewModel @Inject constructor(
                 pager.page = result.body()?.current_page!!
                 pager.pages = result.body()?.total_pages!!
                 pager.per_page = result.body()?.per_page!!
-                _productState.value = ProductState.Success(      //  SUCCESS STATE
-                    listOfProducts,
-                    endOfList,
-                    readAllIdFromDb()
+                _productState.value = ProductState(ProductState.Type.Success,   // SUCCESS
+                    success = ProductState.Success(
+                        listOfProducts,
+                        endOfList,
+                        readAllIdFromDb()
+                    )
                 )
-            } catch (e: Exception) {                             // ERROR STATE
-                _productState.value = e.localizedMessage?.let { ProductState.Error(it) }!!
+            } catch (e: Exception) {                                            // ERROR STATE
+                _productState.value = ProductState(
+                    ProductState.Type.Error,
+                    errorMessage = e.localizedMessage!!
+                )
             }
         }
     }
@@ -108,10 +113,13 @@ class ProductsViewModel @Inject constructor(
         isConnected = online
         if (!online) {
             isConnected = false
-            _productState.value = ProductState.LostConnection
+            _productState.value = ProductState(ProductState.Type.LostConnection)
         } else {
             isConnected = true
-            _productState.value = ProductState.RestoreConnection(lastPage)
+            _productState.value = ProductState(
+                ProductState.Type.RestoreConnection,
+                lastPage = lastPage
+            )
             if (pager.page == 0){
                 loader()
             }
@@ -122,15 +130,18 @@ class ProductsViewModel @Inject constructor(
     /**                 Navigation cases                    */
     /********************************************************/
     private fun navigateToFavorites() {
-        _productState.value = ProductState.NavigateToFavorites
+        _productState.value = ProductState(ProductState.Type.NavigateToFavorites)
     }
 
     private fun navigateToDetails(bundle: Bundle) {
         if (isConnected) {
             bundle.putString("source", "API")
-            _productState.value = ProductState.NavigateToDetails(bundle)
+            _productState.value = ProductState(
+                ProductState.Type.NavigateToDetails,
+                bundle = bundle
+            )
         } else {
-            _productState.value = ProductState.LostConnection
+            _productState.value = ProductState(ProductState.Type.LostConnection)
         }
     }
 
@@ -142,8 +153,10 @@ class ProductsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             dbRepository.insertData(resultToRoomConverter(product))
-            _productState.value = ProductState.UpdateItemView(
-                readAllIdFromDb(), position, itemView, parent
+            _productState.value = ProductState(ProductState.Type.UpdateItemView,
+                updateView = ProductState.UpdateItemView(
+                    readAllIdFromDb(), position, itemView, parent
+                )
             )
         }
     }
@@ -153,8 +166,10 @@ class ProductsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             dbRepository.deleteById(id)
-            _productState.value = ProductState.UpdateItemView(
-                readAllIdFromDb(), position, itemView, parent
+            _productState.value = ProductState(ProductState.Type.UpdateItemView,
+                updateView = ProductState.UpdateItemView(
+                    readAllIdFromDb(), position, itemView, parent
+                )
             )
         }
     }

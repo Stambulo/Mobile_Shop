@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.stambulo.mobileshop.data.model.Results
 
 data class ProductState(
-    val type: Type,
+    val type: Type = Type.IDLE,
     val errorMessage: String = "",
     val bundle: Bundle? = null,
     val lastPage: Boolean = false,

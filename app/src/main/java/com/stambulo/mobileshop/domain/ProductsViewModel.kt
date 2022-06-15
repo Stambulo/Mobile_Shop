@@ -3,14 +3,12 @@ package com.stambulo.mobileshop.domain
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stambulo.mobileshop.data.api.RepositoryImpl
 import com.stambulo.mobileshop.data.db.RoomRepositoryImpl
 import com.stambulo.mobileshop.data.model.Results
 import com.stambulo.mobileshop.data.model.resultToRoomConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -22,13 +20,12 @@ import javax.inject.Inject
 class ProductsViewModel @Inject constructor(
     private val repository: RepositoryImpl,
     private val dbRepository: RoomRepositoryImpl
-) : ViewModel() {
+): BaseViewModel<ProductsIntent>() {
 
     private var lastPage = false
     private var isConnected = true
     private var listOfProducts: MutableList<Results> = mutableListOf()
     private var pager = Pager(0, 0, 0, 0)
-    val intent = Channel<ProductsIntent>(Channel.UNLIMITED)
     private val _productState = MutableStateFlow(ProductState(ProductState.Type.IDLE))
     val productState: StateFlow<ProductState> get() = _productState
 
@@ -39,7 +36,7 @@ class ProductsViewModel @Inject constructor(
     /********************************************************/
     /**                 Intent Handler                      */
     /********************************************************/
-    private fun handleIntent() {
+    override fun handleIntent() {
         viewModelScope.launch {
             intent.consumeAsFlow().collect {
                 when (it) {

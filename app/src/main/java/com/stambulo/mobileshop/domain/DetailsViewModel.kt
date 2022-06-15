@@ -1,11 +1,9 @@
 package com.stambulo.mobileshop.domain
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stambulo.mobileshop.data.api.RepositoryImpl
 import com.stambulo.mobileshop.data.db.RoomRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -16,9 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val repository: RepositoryImpl,
-    private val dbRepository: RoomRepositoryImpl): ViewModel() {
+    private val dbRepository: RoomRepositoryImpl): BaseViewModel<DetailsIntent>() {
 
-    val intent = Channel<DetailsIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<DetailsState>(DetailsState.Idle)
     val state: StateFlow<DetailsState> get() = _state
     private var source = "API"
@@ -30,7 +27,7 @@ class DetailsViewModel @Inject constructor(
     /********************************************************/
     /**                 Intent Handler                      */
     /********************************************************/
-    private fun handleIntent(){
+    override fun handleIntent(){
         viewModelScope.launch {
             intent.consumeAsFlow().collect{
                 when (it){

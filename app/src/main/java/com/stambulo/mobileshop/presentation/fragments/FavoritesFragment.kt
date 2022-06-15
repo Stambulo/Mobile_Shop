@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -26,13 +25,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FavoritesFragment : Fragment() {
+class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewModel>() {
 
-    @Inject
-    lateinit var imageLoader: IImageLoader<ImageView>
-    private val viewModel: FavoritesViewModel by viewModels()
-    private var _binding: FragmentFavoritesBinding? = null
-    private val binding get() = checkNotNull(_binding)
+    override val viewModel: FavoritesViewModel by viewModels()
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         FavoritesAdapter(imageLoader, adapterClickListener)
     }
@@ -55,13 +50,13 @@ class FavoritesFragment : Fragment() {
     /********************************************************/
     /**          Setup and Observe ViewModel                */
     /********************************************************/
-    private fun setupViewModel() {
+    override fun setupViewModel() {
         lifecycleScope.launch {
             viewModel.intent.send(FavoritesIntent.SelectItems)
         }
     }
 
-    private fun observeViewModel() {
+    override fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.state.collect {
                 when (it) {

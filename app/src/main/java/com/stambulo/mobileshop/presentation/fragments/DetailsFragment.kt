@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -26,13 +25,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment() {
+class DetailsFragment : BaseFragment<FragmentDetailsBinding, DetailsViewModel>() {
 
-    @Inject
-    lateinit var imageLoader: IImageLoader<ImageView>
-    private val viewModel: DetailsViewModel by viewModels()
-    private var _binding: FragmentDetailsBinding? = null
-    private val binding get() = checkNotNull(_binding)
+    override val viewModel: DetailsViewModel by viewModels()
     private var productId = 0
     private lateinit var source: String
 
@@ -49,13 +44,13 @@ class DetailsFragment : Fragment() {
         source = arguments?.getString("source")!!
         observeViewModel()
         setupOnClickListener()
-        setIntent()
+        setupViewModel()
     }
 
     /********************************************************/
     /**                  Set Intent Fetch Data              */
     /********************************************************/
-    private fun setIntent() {
+    override fun setupViewModel() {
         lifecycleScope.launch {
             viewModel.intent.send(DetailsIntent.FetchData(productId, source))
         }
@@ -64,13 +59,13 @@ class DetailsFragment : Fragment() {
     /********************************************************/
     /**             Observe ViewModel                       */
     /********************************************************/
-    private fun observeViewModel() {
+    override fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.state.collect {
                 when (it) {
                     is DetailsState.Idle -> {}
                     is DetailsState.Loading -> { renderLoading()}
-                    is DetailsState.SuccessApi -> { renderSuccessApi(it.success.body()) }
+                    is DetailsState.SuccessApi -> { renderSuccess(it.success.body()) }
                     is DetailsState.SuccessDatabase -> {renderSuccessDb(it.product)}
                     is DetailsState.Error -> { renderError(it.error) }
                     is DetailsState.NavigateToFavorites -> {navigateToFavorites()}
@@ -83,12 +78,12 @@ class DetailsFragment : Fragment() {
     /********************************************************/
     /**                   Renders of States                 */
     /********************************************************/
-    private fun renderLoading() {
+    override fun renderLoading() {
         binding.scrollView.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    private fun renderSuccessApi(body: Product?) {
+    private fun renderSuccess(body: Product?) {
         body?.main_image?.let {
             imageLoader.loadInto(it, binding.detailedImage)
         }
@@ -118,7 +113,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun renderError(error: String) {
+    override fun renderError(error: String) {
         Toast.makeText(requireContext(), "Error - $error", Toast.LENGTH_LONG).show()
     }
 

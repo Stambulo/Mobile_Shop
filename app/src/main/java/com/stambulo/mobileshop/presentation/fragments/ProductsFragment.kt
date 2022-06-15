@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -33,14 +32,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
+class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel>(), AbsListView.OnScrollListener {
 
-    @Inject
-    lateinit var imageLoader: IImageLoader<ImageView>
     private lateinit var loadingFooter: View
-    private val viewModel: ProductsViewModel by viewModels()
-    private var _binding: FragmentProductsBinding? = null
-    private val binding get() = checkNotNull(_binding)
+    override val viewModel: ProductsViewModel by viewModels()
     private var visibleLastIndex = 0
     private var visibleItemCount = 0
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
@@ -61,7 +56,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         isOnline()
-        fetchProducts()
+        setupViewModel()
         observeViewModel()
         favoritesClickListener()
         setupButtonClickListener()
@@ -70,7 +65,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     /********************************************************/
     /**                       Intent                        */
     /********************************************************/
-    private fun fetchProducts() {
+    override fun setupViewModel() {
         lifecycleScope.launch {
             viewModel.intent.send(ProductsIntent.FetchProducts)
         }
@@ -79,7 +74,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     /********************************************************/
     /**             Observe ViewModel                       */
     /********************************************************/
-    private fun observeViewModel() {
+    override fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.productState.collect {
                 when (it.type) {
@@ -127,13 +122,13 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
         }
     }
 
-    private fun renderLoading() {
+    override fun renderLoading() {
         binding.mainProgress.visibility = View.VISIBLE
         binding.refreshButton.visibility = View.GONE
         binding.connectWarning.visibility = View.GONE
     }
 
-    private fun renderError(error: String) {
+    override fun renderError(error: String) {
         binding.listView.alpha = 0.3F
         binding.listView.removeFooterView(loadingFooter)
         Toast.makeText(requireContext(), "Error - $error", Toast.LENGTH_LONG).show()
@@ -183,7 +178,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
     /**                  Click Listeners                    */
     /********************************************************/
     private fun setupButtonClickListener() {
-        binding.refreshButton.setOnClickListener { fetchProducts() }
+        binding.refreshButton.setOnClickListener { setupViewModel() }
     }
 
     private fun favoritesClickListener() {
@@ -244,7 +239,7 @@ class ProductsFragment : Fragment(), AbsListView.OnScrollListener {
         val itemsLastIndex = adapter.count - 1
         val lastIndex = itemsLastIndex + 1
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
-            fetchProducts()
+            setupViewModel()
         }
     }
 

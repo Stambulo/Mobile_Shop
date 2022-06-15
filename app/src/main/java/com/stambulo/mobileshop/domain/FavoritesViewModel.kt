@@ -1,11 +1,9 @@
 package com.stambulo.mobileshop.domain
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stambulo.mobileshop.data.db.RoomRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -15,9 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepositoryImpl)
-    : ViewModel() {
+    : BaseViewModel<FavoritesIntent>() {
 
-    val intent = Channel<FavoritesIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<FavoritesState>(FavoritesState.Idle)
     val state: StateFlow<FavoritesState> get() = _state
 
@@ -26,7 +23,7 @@ class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepos
     /********************************************************/
     /**                 Intent Handler                      */
     /********************************************************/
-    private fun handleIntent() {
+    override fun handleIntent() {
         viewModelScope.launch {
             intent.consumeAsFlow().collect {
                 when (it) {

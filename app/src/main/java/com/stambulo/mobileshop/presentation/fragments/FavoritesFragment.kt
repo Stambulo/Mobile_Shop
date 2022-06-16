@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,11 +17,9 @@ import com.stambulo.mobileshop.domain.FavoritesState
 import com.stambulo.mobileshop.domain.FavoritesViewModel
 import com.stambulo.mobileshop.presentation.adapters.FavoritesAdapter
 import com.stambulo.mobileshop.presentation.adapters.OnFavoritesClickListener
-import com.stambulo.mobileshop.presentation.image.IImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewModel>() {

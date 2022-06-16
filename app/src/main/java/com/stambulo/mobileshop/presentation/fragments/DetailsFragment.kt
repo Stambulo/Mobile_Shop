@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
@@ -18,11 +17,9 @@ import com.stambulo.mobileshop.databinding.FragmentDetailsBinding
 import com.stambulo.mobileshop.domain.DetailsIntent
 import com.stambulo.mobileshop.domain.DetailsState
 import com.stambulo.mobileshop.domain.DetailsViewModel
-import com.stambulo.mobileshop.presentation.image.IImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailsFragment : BaseFragment<FragmentDetailsBinding, DetailsViewModel>() {

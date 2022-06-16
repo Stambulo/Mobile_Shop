@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,11 +24,9 @@ import com.stambulo.mobileshop.domain.ProductsIntent
 import com.stambulo.mobileshop.domain.ProductsViewModel
 import com.stambulo.mobileshop.presentation.adapters.OnListItemClickListener
 import com.stambulo.mobileshop.presentation.adapters.ProductsAdapter
-import com.stambulo.mobileshop.presentation.image.IImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel>(), AbsListView.OnScrollListener {

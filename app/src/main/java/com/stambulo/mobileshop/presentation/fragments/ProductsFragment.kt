@@ -59,18 +59,18 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel
         setupButtonClickListener()
     }
 
-    /********************************************************/
-    /**                       Intent                        */
-    /********************************************************/
+    /**
+    *             Intent
+    */
     override fun setupViewModel() {
         lifecycleScope.launch {
             viewModel.intent.send(ProductsIntent.FetchProducts)
         }
     }
 
-    /********************************************************/
-    /**             Observe ViewModel                       */
-    /********************************************************/
+    /**
+    *             Observe ViewModel
+    */
     override fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.productState.collect {
@@ -99,9 +99,9 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel
         }
     }
 
-    /********************************************************/
-    /**                Renders of States                    */
-    /********************************************************/
+    /**
+    *                Renders of States
+    */
     private fun renderSuccess(success: List<Results>?, endOfList: Boolean, indices: List<Int>) {
         binding.refreshButton.visibility = View.GONE
         binding.connectWarning.visibility = View.GONE
@@ -119,13 +119,13 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel
         }
     }
 
-    override fun renderLoading() {
+    fun renderLoading() {
         binding.mainProgress.visibility = View.VISIBLE
         binding.refreshButton.visibility = View.GONE
         binding.connectWarning.visibility = View.GONE
     }
 
-    override fun renderError(error: String) {
+    fun renderError(error: String) {
         binding.listView.alpha = 0.3F
         binding.listView.removeFooterView(loadingFooter)
         Toast.makeText(requireContext(), "Error - $error", Toast.LENGTH_LONG).show()
@@ -158,9 +158,9 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel
         adapter.notifyDataSetChanged()
     }
 
-    /********************************************************/
-    /**                      Navigation                     */
-    /********************************************************/
+    /**
+    *                      Navigation
+    */
     private fun goToDetailsScreen(bundle: Bundle) {
         Navigation.findNavController(requireActivity(), R.id.nav_host)
             .navigate(R.id.action_products_to_details, bundle)
@@ -171,9 +171,9 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel
             .navigate(R.id.action_products_to_favorites)
     }
 
-    /********************************************************/
-    /**                  Click Listeners                    */
-    /********************************************************/
+    /**
+    *                  Click Listeners
+    */
     private fun setupButtonClickListener() {
         binding.refreshButton.setOnClickListener { setupViewModel() }
     }
@@ -222,9 +222,9 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel
             }
         }
 
-    /********************************************************/
-    /**                Scroll Listeners                     */
-    /********************************************************/
+    /**
+    *                Scroll Listeners
+    */
     override fun onScroll(
         view: AbsListView?, firstVisible: Int, visibleItemCount: Int, totalItemCount: Int
     ) {
@@ -240,9 +240,9 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding, ProductsViewModel
         }
     }
 
-    /********************************************************/
-    /**                 isOnline Listeners                  */
-    /********************************************************/
+    /**
+    *                 isOnline Listeners
+    */
     private fun isOnline(): Boolean {
         val context = requireContext()
         val connectivityManager =

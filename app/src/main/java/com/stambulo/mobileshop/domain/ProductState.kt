@@ -24,9 +24,8 @@ data class ProductState(
         NavigateToFavorites,
         NavigateToDetails}
 
-    //TODO: using emptyList as default is more preferable then nullable list
     data class Success(
-        val success: List<Results>?,
+        val success: List<Results> = emptyList(),
         val endOfList: Boolean,
         val indices: List<Int>)
 

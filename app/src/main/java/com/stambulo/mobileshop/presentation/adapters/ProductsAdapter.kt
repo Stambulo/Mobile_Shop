@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import com.stambulo.mobileshop.data.model.Results
 import com.stambulo.mobileshop.databinding.ItemProductsBinding
 import com.stambulo.mobileshop.presentation.image.IImageLoader
 
 class ProductsAdapter(
     private var imageLoader: IImageLoader<ImageView>,
-    private var onListItemClickListener: OnListItemClickListener
-) : BaseAdapter() {
+    private var onListItemClickListener: OnListItemClickListener) : BaseAdapter() {
 
     private var data: MutableList<Results> = mutableListOf()
     private lateinit var binding: ItemProductsBinding
@@ -36,7 +36,7 @@ class ProductsAdapter(
         binding = ItemProductsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         binding.apply {
             if (indicesInDb.contains(data[position].id)){
-                inFavoriteIcon.visibility = View.VISIBLE
+                inFavoriteIcon.isVisible = true
             }
             root.setOnClickListener {
                 onListItemClickListener.onItemClick(data[position].id) }
@@ -60,9 +60,9 @@ class ProductsAdapter(
         data.addAll(results)
     }
 
-    /********************************************************/
-    /**                  Show and hide hearts               */
-    /********************************************************/
+    /**
+    *        Show and hide hearts
+    */
     fun updateItemView(indices: List<Int>, position: Int, itemView: View?, parent: ViewGroup) {
         indicesInDb = indices
         getView(position, itemView, parent)

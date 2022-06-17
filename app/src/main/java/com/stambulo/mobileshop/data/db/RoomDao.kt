@@ -2,25 +2,24 @@ package com.stambulo.mobileshop.data.db
 
 import androidx.room.*
 
-//TODO: better to use interfaces as DAO, not abstract classes
 @Dao
-abstract class RoomDao {
+interface RoomDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertProduct(product: EntityRoomProduct)
+    suspend fun insertProduct(product: EntityRoomProduct)
 
     @Query("SELECT * FROM products")
-    abstract suspend fun getAllProducts(): List<EntityRoomProduct>
+    suspend fun getAllProducts(): List<EntityRoomProduct>
 
     @Query("SELECT id FROM products")
-    abstract suspend fun getIdListFromDb(): List<Int>
+    suspend fun getIdListFromDb(): List<Int>
 
     @Query("SELECT * FROM products WHERE id = :productId")
-    abstract suspend fun getProductById(productId: Int): EntityRoomProduct
+    suspend fun getProductById(productId: Int): EntityRoomProduct
 
     @Query("DELETE FROM products")
-    abstract suspend fun deleteAll()
+    suspend fun deleteAll()
 
     @Query("DELETE FROM products WHERE id = :productId")
-    abstract suspend fun deleteById(productId: Int)
+    suspend fun deleteById(productId: Int)
 }

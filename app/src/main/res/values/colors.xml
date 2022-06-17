@@ -7,12 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="base">#182867</color>
-    <!-- TODO: better to store hex in color name, like product_name_07195c -->
-    <color name="product_name">#07195C</color>
-    <color name="product_description">#424A56</color>
-    <color name="first_price">#035A97</color>
-    <color name="second_price">#9CB1BC</color>
-    <color name="gradient_second_color">#F8F8F8</color>
-    <color name="fab_button_color">#7740A2</color>
+    <color name="base_182867">#182867</color>
+    <color name="product_name_07195c">#07195C</color>
+    <color name="product_description_424a56">#424A56</color>
+    <color name="first_price_035a97">#035A97</color>
+    <color name="second_price_9cb1bc">#9CB1BC</color>
+    <color name="gradient_second_color_f8f8f8">#F8F8F8</color>
+    <color name="fab_button_color_7740a2">#7740A2</color>
 </resources>

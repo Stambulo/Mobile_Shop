@@ -67,7 +67,7 @@
                 android:paddingTop="24dp"
                 android:scrollHorizontally="false"
                 android:text="@string/Product_name_placeholder"
-                android:textColor="@color/product_name"
+                android:textColor="@color/product_name_07195c"
                 android:textSize="18sp"
                 app:layout_constraintTop_toTopOf="@id/divider_top" />
 
@@ -80,7 +80,7 @@
                 android:maxHeight="150dp"
                 android:paddingVertical="8dp"
                 android:text="@string/product_description"
-                android:textColor="@color/product_description"
+                android:textColor="@color/product_description_424a56"
                 app:layout_constraintStart_toStartOf="@id/product_name"
                 app:layout_constraintTop_toBottomOf="@id/product_name" />
 
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_semi_bold"
                     android:text="@string/price_placeholder"
-                    android:textColor="@color/first_price"
+                    android:textColor="@color/first_price_035a97"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@id/product_name"
                     app:layout_constraintTop_toBottomOf="@id/product_description" />
@@ -111,7 +111,7 @@
                     android:fontFamily="@font/open_sans_semi_bold"
                     android:paddingHorizontal="24dp"
                     android:text="@string/price_placeholder"
-                    android:textColor="@color/second_price"
+                    android:textColor="@color/second_price_9cb1bc"
                     android:textSize="11sp"
                     app:layout_constraintStart_toEndOf="@id/price_first"
                     app:layout_constraintTop_toBottomOf="@id/product_description" />

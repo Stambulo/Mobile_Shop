@@ -2,7 +2,9 @@ package com.stambulo.mobileshop.di
 
 import android.content.Context
 import androidx.room.Room
+import com.stambulo.mobileshop.data.db.RoomDao
 import com.stambulo.mobileshop.data.db.RoomDatabase
+import com.stambulo.mobileshop.data.db.RoomRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,12 @@ class RoomModule {
             appContext,
             RoomDatabase::class.java,
             "products.db").build()
+
+    @Provides
+    @Singleton
+    fun provideDao(database: RoomDatabase): RoomDao = database.dao
+
+    @Provides
+    @Singleton
+    fun providesRepository(roomDao: RoomDao) = RoomRepositoryImpl(roomDao)
 }

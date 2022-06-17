@@ -1,18 +1,17 @@
 package com.stambulo.mobileshop.data.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.stambulo.mobileshop.data.db.EntityRoomProduct
 import java.math.BigDecimal
 
 data class Results (
-    @JsonProperty("id") val id: Int,
-    @JsonProperty("name") val name: String,
-    @JsonProperty("details") val details: String,
-    @JsonProperty("size") val size: String,
-    @JsonProperty("colour") val colour: String,
-    @JsonProperty("price") val price: BigDecimal,
-    @JsonProperty("main_image") val main_image: String,
-    @JsonProperty("category") val category: ProductCategory
+    val id: Int,
+    val name: String,
+    val details: String,
+    val size: String,
+    val colour: String,
+    val price: BigDecimal,
+    val main_image: String,
+    val category: ProductCategory
 )
 
 fun resultToRoomConverter(results: Results): EntityRoomProduct{

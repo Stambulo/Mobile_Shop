@@ -1,5 +1,7 @@
 package com.stambulo.mobileshop.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.stambulo.mobileshop.data.api.ApiService
 import dagger.Module
 import dagger.Provides
@@ -10,7 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -27,10 +29,15 @@ class ApiModule {
     fun api(@Named("baseUrl") baseUrl: String): ApiService =
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson()))
             .client(creteOkHttpClient(MainInterceptor()))
             .build()
             .create(ApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun gson(): Gson = GsonBuilder()
+        .create()
 
     private fun creteOkHttpClient(interceptor: Interceptor): OkHttpClient {
         val httpClient = OkHttpClient.Builder()

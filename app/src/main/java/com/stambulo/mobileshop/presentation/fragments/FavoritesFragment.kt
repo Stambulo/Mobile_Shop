@@ -48,9 +48,9 @@ class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewMod
         backArrowClickListener()
     }
 
-    /********************************************************/
-    /**          Setup and Observe ViewModel                */
-    /********************************************************/
+    /**
+    *          Setup and Observe ViewModel
+    */
     override fun setupViewModel() {
         lifecycleScope.launch {
             viewModel.intent.send(FavoritesIntent.SelectItems)
@@ -70,18 +70,18 @@ class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewMod
         }
     }
 
-    /********************************************************/
-    /**                 Success Render                      */
-    /********************************************************/
+    /**
+    *                 Success Render
+    */
     private fun renderSuccess(success: List<EntityRoomProduct>) {
         adapter.updateData(success)
         adapter.notifyDataSetChanged()
         binding.favoritesListView.visibility = View.VISIBLE
     }
 
-    /********************************************************/
-    /**                      Navigation                     */
-    /********************************************************/
+    /**
+    *                 Navigation
+    */
     private fun backNavigation() {
         //TODO: there are a lot critical issues with navigation in your project
         //TODO: check https://developer.android.com/codelabs/android-navigation?hl=en#0
@@ -109,9 +109,9 @@ class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewMod
         )
     }
 
-    /********************************************************/
-    /**                 Click Listeners                     */
-    /********************************************************/
+    /**
+    *                 Click Listeners
+    */
     private fun backArrowClickListener() {
         binding.toolbar.backArrow.setOnClickListener {
             lifecycleScope.launch {

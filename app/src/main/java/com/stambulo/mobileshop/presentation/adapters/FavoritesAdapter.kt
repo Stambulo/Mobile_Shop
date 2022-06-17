@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import com.stambulo.mobileshop.data.db.EntityRoomProduct
 import com.stambulo.mobileshop.databinding.ItemProductsBinding
 import com.stambulo.mobileshop.presentation.image.IImageLoader
@@ -39,8 +40,8 @@ class FavoritesAdapter(
             productDescription.text = data[position].details
             priceFirst.text = "$ " + data[position].price.toString()
             priceSecond.text = "$ " + data[position].price.toString()
-            notInFavoriteIcon.visibility = View.GONE
-            inFavoriteIcon.visibility = View.VISIBLE
+            notInFavoriteIcon.isVisible = false
+            inFavoriteIcon.isVisible = true
             imageLoader.loadInto(data[position].image, imageProduct)
         }
         return binding.root

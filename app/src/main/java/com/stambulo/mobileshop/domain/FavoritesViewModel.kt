@@ -20,10 +20,10 @@ class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepos
 
     init { handleIntent() }
 
-    /********************************************************/
-    /**                 Intent Handler                      */
-    /********************************************************/
-    override fun handleIntent() {
+    /**
+    *                 Intent Handler
+    */
+    fun handleIntent() {
         viewModelScope.launch {
             intent.consumeAsFlow().collect {
                 when (it) {
@@ -36,9 +36,9 @@ class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepos
         }
     }
 
-    /********************************************************/
-    /**                  Database cases                     */
-    /********************************************************/
+    /**
+    *                  Database cases
+    */
     private fun deleteItem(id: Int) {
         viewModelScope.launch {
             dbRepository.deleteById(id)
@@ -52,9 +52,9 @@ class FavoritesViewModel @Inject constructor(private val dbRepository: RoomRepos
         }
     }
 
-    /********************************************************/
-    /**                 Navigation cases                    */
-    /********************************************************/
+    /**
+    *                 Navigation cases
+    */
     private fun backNavigation() {
         _state.value = FavoritesState.BackNavigation
     }

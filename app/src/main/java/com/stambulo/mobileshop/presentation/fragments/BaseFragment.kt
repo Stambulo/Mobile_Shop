@@ -15,9 +15,6 @@ abstract class BaseFragment<VB, VM>: Fragment(){
     protected val binding get() = checkNotNull(_binding)
     abstract val viewModel: VM
 
-    //TODO: important functions should be abstract, not open
-    open fun setupViewModel() {}
-    open fun observeViewModel() {}
-    open fun renderLoading() {}
-    open fun renderError(error: String) {}
+    abstract fun setupViewModel()
+    abstract fun observeViewModel()
 }

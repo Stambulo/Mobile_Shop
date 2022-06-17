@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.viewModelScope
 import com.stambulo.mobileshop.data.api.RepositoryImpl
+import com.stambulo.mobileshop.data.db.RoomDao
 import com.stambulo.mobileshop.data.db.RoomRepositoryImpl
 import com.stambulo.mobileshop.data.model.Results
 import com.stambulo.mobileshop.data.model.resultToRoomConverter
@@ -34,10 +35,10 @@ class ProductsViewModel @Inject constructor(
         handleIntent()
     }
 
-    /********************************************************/
-    /**                 Intent Handler                      */
-    /********************************************************/
-    override fun handleIntent() {
+    /**
+    *                 Intent Handler
+    */
+    fun handleIntent() {
         viewModelScope.launch {
             intent.consumeAsFlow().collect {
                 when (it) {
@@ -54,9 +55,9 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    /********************************************************/
-    /**                 Next Page Loader                    */
-    /********************************************************/
+    /**
+    *                 Next Page Loader
+    */
     private fun loader() {
         if (!isConnected) {
             _productState.value = ProductState(ProductState.Type.LostConnection)
@@ -104,9 +105,9 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    /********************************************************/
-    /**                Connection cases                     */
-    /********************************************************/
+    /**
+    *                Connection cases
+    */
     private fun onChangeConnection(online: Boolean) {
         isConnected = online
         if (!online) {
@@ -124,9 +125,9 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    /********************************************************/
-    /**                 Navigation cases                    */
-    /********************************************************/
+    /**
+    *                 Navigation cases
+    */
     private fun navigateToFavorites() {
         _productState.value = ProductState(ProductState.Type.NavigateToFavorites)
     }
@@ -143,9 +144,9 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    /********************************************************/
-    /**                  Database cases                     */
-    /********************************************************/
+    /**
+    *                  Database cases
+    */
     private fun insertProductIntoDb(
         product: Results, position: Int, itemView: View?, parent: ViewGroup
     ) {

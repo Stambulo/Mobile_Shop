@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/fab_button_color"
+        android:backgroundTint="@color/fab_button_color_7740a2"
         android:textColor="@color/white"
         app:iconTint="@color/white"
         android:contentDescription="@string/my_cart_fab"

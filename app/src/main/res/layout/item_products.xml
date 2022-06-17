@@ -30,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- TODO: use tools:text to test TextView appearance instead of android:text -->
     <TextView
         android:id="@+id/product_name"
         android:layout_width="match_parent"
@@ -96,6 +97,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:constraint_referenced_ids="not_in_favorite_icon"/>
 
+    <!-- TODO: use FABs or ImageButtoms with ripple background to implement there behaviour -->
     <ImageView
         android:id="@+id/not_in_favorite_icon"
         android:layout_width="wrap_content"

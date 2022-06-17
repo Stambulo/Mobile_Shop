@@ -27,6 +27,7 @@
         app:layout_constraintTop_toBottomOf="@id/sort_by_bar"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <!-- TODO: should be custom view as toolbar and as in design -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extended_fab"
         android:layout_width="wrap_content"

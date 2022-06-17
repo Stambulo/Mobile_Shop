@@ -12,7 +12,8 @@ import com.stambulo.mobileshop.presentation.image.IImageLoader
 class FavoritesAdapter(
     private var imageLoader: IImageLoader<ImageView>,
     private var onClickListener: OnFavoritesClickListener
-): BaseAdapter() {
+): BaseAdapter() //TODO: use list adapter instead
+ {
 
     private var data: MutableList<EntityRoomProduct> = mutableListOf()
     private lateinit var binding: ItemProductsBinding

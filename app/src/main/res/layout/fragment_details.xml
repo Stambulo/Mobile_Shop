@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- TODO: you should create your own custom view instead of include. The example will be send later -->
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_details"

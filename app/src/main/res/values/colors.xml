@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="base">#182867</color>
+    <!-- TODO: better to store hex in color name, like product_name_07195c -->
     <color name="product_name">#07195C</color>
     <color name="product_description">#424A56</color>
     <color name="first_price">#035A97</color>

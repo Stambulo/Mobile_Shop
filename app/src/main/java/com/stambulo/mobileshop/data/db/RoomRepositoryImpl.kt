@@ -2,6 +2,7 @@ package com.stambulo.mobileshop.data.db
 
 import javax.inject.Inject
 
+//TODO: you should provide DAOs in a dagger module and use them in inject instead of DB.
 class RoomRepositoryImpl @Inject constructor(private val db: RoomDatabase) {
 
     suspend fun getDataFromDB(): List<EntityRoomProduct>{

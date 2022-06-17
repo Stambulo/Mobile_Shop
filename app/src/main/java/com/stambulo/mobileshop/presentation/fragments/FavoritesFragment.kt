@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewModel>() {
 
     override val viewModel: FavoritesViewModel by viewModels()
+    //TODO: are you understand what LazyThreadSafetyMode.NONE means?
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         FavoritesAdapter(imageLoader, adapterClickListener)
     }
@@ -40,6 +41,9 @@ class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
+
+        //TODO: common mistake to fetch and observe data in onViewCreated. It should be done in onCreate.
+        //TODO: check how to implement lifecycle aware behaviour of stateFlows.
         observeViewModel()
         backArrowClickListener()
     }
@@ -79,6 +83,8 @@ class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewMod
     /**                      Navigation                     */
     /********************************************************/
     private fun backNavigation() {
+        //TODO: there are a lot critical issues with navigation in your project
+        //TODO: check https://developer.android.com/codelabs/android-navigation?hl=en#0
         Navigation.findNavController(requireActivity(), R.id.nav_host)
             .navigate(R.id.action_favorites_to_products)
     }
@@ -119,6 +125,7 @@ class FavoritesFragment: BaseFragment<FragmentFavoritesBinding, FavoritesViewMod
             override fun onItemClick(productId: Int) {
                 val bundle = Bundle()
                 bundle.putInt("productId", productId)
+                //TODO: repeatable code should be replaced with function in baseclass or with extension function.
                 lifecycleScope.launch {
                     viewModel.intent.send(FavoritesIntent.ToDetailsNavigation(bundle))
                 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TODO: EXAMPLE, do not use, create your own -->
+    <declare-styleable name="Toolbar">
+        <attr name="toolbarLeftImage" format="reference"/>
+        <attr name="toolbarCenterImage" format="reference"/>
+        <attr name="toolbarRightImage" format="reference"/>
+    </declare-styleable>
+
+</resources>

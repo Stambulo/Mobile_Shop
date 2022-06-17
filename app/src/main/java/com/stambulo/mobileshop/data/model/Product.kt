@@ -3,6 +3,7 @@ package com.stambulo.mobileshop.data.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
 
+//TODO: domain entity or UI model should not contains that much nullable params. Use some default here.
 data class Product(
     @JsonProperty("id") val id: Int?,
     @JsonProperty("category") val category: ProductCategory?,

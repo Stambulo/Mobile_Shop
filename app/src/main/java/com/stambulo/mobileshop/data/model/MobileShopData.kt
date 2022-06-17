@@ -2,6 +2,7 @@ package com.stambulo.mobileshop.data.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+//TODO: use Moshi or GSON as your main converter
 data class MobileShopData (
     @JsonProperty("count") val count: Int,
     @JsonProperty("total_pages") val total_pages: Int,

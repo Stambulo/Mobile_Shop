@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+//TODO: viewModel is NOT A PART of domain
+//TODO: format your code properly with REFORMAT CODE tool
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val repository: RepositoryImpl,
@@ -31,9 +33,9 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch {
             intent.consumeAsFlow().collect{
                 when (it){
-                    is DetailsIntent.Idle -> {}
-                    is DetailsIntent.FetchData -> {fetchData(it.productId, it.source)}
-                    is DetailsIntent.BackNavigationIntent -> {backNavigation()}
+                    is DetailsIntent.Idle -> {} //TODO: use UNIT instead of {}
+                    is DetailsIntent.FetchData -> {fetchData(it.productId, it.source)} //TODO: if there is only one operator, you can omit { }
+                    is DetailsIntent.BackNavigationIntent -> backNavigation() //TODO: like here
                     is DetailsIntent.FavoritesNavigationIntent -> {navigateToFavorites()}
                 }
             }
@@ -62,6 +64,7 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
+    //TODO: you repeat yourself multiple times. You should create some extensions and sealed classes to handle extensions, loading and etc.
     private fun getDataFromApi(id: Int){
         source = "API"
         _state.value = DetailsState.Loading

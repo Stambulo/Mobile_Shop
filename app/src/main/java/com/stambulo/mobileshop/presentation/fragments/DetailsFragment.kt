@@ -37,11 +37,15 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding, DetailsViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //TODO: remove !!
         productId = arguments?.getInt("productId")!!
         source = arguments?.getString("source")!!
-        observeViewModel()
+
         setupOnClickListener()
+
+        //TODO: common mistake to fetch and observe data in onViewCreated. It should be done in onCreate.
         setupViewModel()
+        observeViewModel()
     }
 
     /********************************************************/
@@ -85,6 +89,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding, DetailsViewModel>()
             imageLoader.loadInto(it, binding.detailedImage)
         }
         binding.apply {
+            //TODO: use isVisible instead of visibility
             scrollView.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
             productName.text = body?.name

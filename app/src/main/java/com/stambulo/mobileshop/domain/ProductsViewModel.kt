@@ -25,6 +25,7 @@ class ProductsViewModel @Inject constructor(
     private var lastPage = false
     private var isConnected = true
     private var listOfProducts: MutableList<Results> = mutableListOf()
+    //TODO: use Paging 3
     private var pager = Pager(0, 0, 0, 0)
     private val _productState = MutableStateFlow(ProductState(ProductState.Type.IDLE))
     val productState: StateFlow<ProductState> get() = _productState

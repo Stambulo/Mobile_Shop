@@ -2,6 +2,7 @@ package com.stambulo.mobileshop.data.db
 
 import androidx.room.*
 
+//TODO: better to use interfaces as DAO, not abstract classes
 @Dao
 abstract class RoomDao {
 
